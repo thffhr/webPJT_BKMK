@@ -1,0 +1,182 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+
+{% block title %}
+    {% if request.resolver_match.url_name == 'signup' %}
+        회원가입
+    {% elif request.resolver_match.url_name == 'login' %}
+        로그인
+    {% else %}
+        회원정보수정
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    {% if request.resolver_match.url_name == 'login' %}
+    <div class="container login-container position-relative">
+        <div class="row">
+            <div class="col-6 login-form-1" style="background-image: URL(이미지 주소) ;">
+                <h1>환영합니다.</h1>
+            </div>
+            <div class="col-6 login-form-2">
+                <h2>아직 회원이 아니신가요?</h2>
+                <div style="width: 20rem;">
+                    <form action="" method="POST" class="form">
+                        {% csrf_token %}
+                        {% bootstrap_form form %}
+                        <div>
+                        {% buttons %}
+                        <div class="container">
+                          <div class="row">
+                            <div class="col text-center">
+                            <button type="submit" class="btnSubmit ">로그인</button>
+                                </div>
+                            </div>
+                        </div>
+                        {% endbuttons %}
+                        <div class="container">
+                          <div class="row">
+                            <div class="col text-center">
+                            <button type="submit" class="btnSubmit" onclick="location.href='{% url 'accounts:signup' %}'">회원가입</button>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        	<a href="#" class="intro-banner-vdo-play-btn pinkBg" target="_blank" style="left: 25%;">
+            <i class="glyphicon glyphicon-play whiteText" aria-hidden="true"></i>
+            <span class="ripple pinkBg"></span>
+            <span class="ripple pinkBg"></span>
+            <span class="ripple pinkBg"></span>
+            </a>
+        </div>
+    </div>
+    {% else %}
+        <form action="" method="POST" class="form">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            {% buttons %}
+                <button type="submit" class="btnSubmit">완료</button>
+            {% endbuttons %}
+        </form>
+    {% endif %}
+{% endblock %}
+
+{% block style %}
+
+<style>
+@import url(//fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet");
+
+.pinkBg {
+    background-color: #ed184f!important;
+    background-image: linear-gradient(90deg, #fd5581, #fd8b55);
+}
+.intro-banner-vdo-play-btn{
+    height:60px;
+    width:60px;
+    position:absolute;
+    top:50%;
+    left:50%;
+    text-align:center;
+    margin:-30px 0 0 -30px;
+    border-radius:100px;
+    z-index:1
+}
+.intro-banner-vdo-play-btn i{
+    line-height:56px;
+    font-size:30px
+}
+.intro-banner-vdo-play-btn .ripple{
+    position:absolute;
+    width:160px;
+    height:160px;
+    z-index:-1;
+    left:50%;
+    top:50%;
+    opacity:0;
+    margin:-80px 0 0 -80px;
+    border-radius:100px;
+    -webkit-animation:ripple 1.8s infinite;
+    animation:ripple 1.8s infinite
+}
+
+@-webkit-keyframes ripple{
+    0%{
+        opacity:1;
+        -webkit-transform:scale(0);
+        transform:scale(0)
+    }
+    100%{
+        opacity:0;
+        -webkit-transform:scale(1);
+        transform:scale(1)
+    }
+}
+@keyframes ripple{
+    0%{
+        opacity:1;
+        -webkit-transform:scale(0);
+        transform:scale(0)
+    }
+    100%{
+        opacity:0;
+        -webkit-transform:scale(1);
+        transform:scale(1)
+    }
+}
+.intro-banner-vdo-play-btn .ripple:nth-child(2){
+    animation-delay:.3s;
+    -webkit-animation-delay:.3s
+}
+.intro-banner-vdo-play-btn .ripple:nth-child(3){
+    animation-delay:.6s;
+    -webkit-animation-delay:.6s
+}
+
+
+.login-container{
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+.login-form-1{
+    padding: 9%;
+    background:#282726;
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+}
+.login-form-1 h1{
+    text-align: center;
+    margin-bottom:12%;
+    color:#fff;
+    font-family: 'Jua', sans-serif;
+}
+.login-form-2{
+    padding: 9%;
+    background: #F08080;
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+}
+.login-form-2 h2{
+    text-align: center;
+    margin-bottom:12%;
+    color: #fff;
+    font-family: 'Jua', sans-serif;
+}
+.login-container form{
+    padding: 10%;
+}
+.btnSubmit{
+    font-weight: 600;
+    width: 50%;
+    color: #282726;
+    background-color: #;
+    border: none;
+    border-radius: 1.5rem;
+    padding:2%;
+    font-family: 'Jua', sans-serif;
+}
+</style>
+
+{% endblock %}

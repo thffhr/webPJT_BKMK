@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% load static %}
+{% load bootstrap_pagination %}
+
+{% block title %}
+    {{ user.username }}님의 맞춤 영화
+{% endblock %}
+{% block content %}
+    <br>
+    <div class="movie_list">
+    <h1>{{ user.username }}님, 이런 영화는 어떠신가요?</h1>
+    <br>
+    </div>
+    <div class="container movie-container" style="display: inline-block;text-align: center;">
+        <div class="row justify-content-between">
+            {% for movie in page_obj %}
+                <div class="col d-flex mb-3">
+                    <div class="card" style="width: 18rem;">
+                      <img src="https://image.tmdb.org/t/p/w500/{{ movie.poster_path }}" class="card-img-top" alt="...">
+                      <div class="card-body">
+                        <h5 class="card-title">{{ movie.title }}</h5>
+                        <p class="card-text">{{ movie.overview|slice:':20' }}...</p>
+                        <a href="{% url 'movies:detail' movie.pk %}" class="btnSubmit">더 알아보기</a>
+                      </div>
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% bootstrap_paginate page_obj range=10 show_prev_next="true" show_first_last="true" %}
+{% endblock %}
+
+{% block script %}
+<div class='pagination'>
+    <script>
+        // paginator
+        const paginator = document.querySelector('.pagination');
+        paginator.classList.add('justify-content-center', 'my-5');
+    </script>
+</div>
+{% endblock %}
+
+{% block style %}
+<style>
+@import url(//fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet");
+.btnSubmit{
+    font-family: 'Jua', sans-serif;
+    font-weight: 600;
+    width: 50%;
+    color: black;
+    background-color: #F08080;
+    border: none;
+    border-radius: 1.5rem;
+    padding:2%;
+    cursor: pointer;
+}
+.btnSubmit:hover {
+    color: black;
+    background-color: #F08080;
+}
+.movie_list{
+    font-family: 'Jua', sans-serif;
+}
+.movie-container{
+    font-family: 'Jua', sans-serif;
+}
+</style>
+
+{% endblock %}

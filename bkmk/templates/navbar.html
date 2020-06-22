@@ -1,0 +1,52 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand text " href="{% url 'movies:main' %}">볼까말까 BKMK 👀</a>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav ml-auto">
+      {% if user.is_authenticated %}
+          <li class="nav-item align-self-center">
+            <a class="nav-link active" href="{% url 'movies:recommend' %}">맞춤 영화 추천👍🏻 </a>
+          </li>
+          <li class="nav-item align-self-center">
+            <a class="nav-link" href="{% url 'movies:main' %}">영화목록</a>
+          </li>
+          <li class="nav-item align-self-center">
+            <a class="nav-link" href="{% url 'reviews:reviewlist' %}">리뷰목록</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <!--프로필이미지 삽입-->
+              {{ user.username }}님, 환영합니다.
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <a class="dropdown-item" href="{% url 'accounts:detail' user.pk %}">마이페이지</a>
+              <a class="dropdown-item" href="{% url 'accounts:update' %}">나의 정보수정</a>
+              <a class="dropdown-item" href="{% url 'accounts:logout' %}">로그아웃</a>
+              <a class="dropdown-item" href="{% url 'accounts:delete' %}">회원 탈퇴</a>
+            </div>
+          </li>
+      {% endif %}
+    </ul>
+  </div>
+</nav>
+
+{% block style %}
+
+<style>
+@import url(//fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet");
+
+.nav-link{
+    font-family: 'Jua', sans-serif;
+}
+.dropdown-item{
+    font-family: 'Jua', sans-serif;
+}
+.navbar-brand{
+    font-family: 'Jua', sans-serif;
+}
+</style>
+
+{% endblock %}

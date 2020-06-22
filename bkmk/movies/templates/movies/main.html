@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap4 %}
+{% load bootstrap_pagination %}
+
+
+{% block title %}
+영화, 볼까말까?
+{% endblock %}
+{% block content %}
+<div class="recommend_list">
+  <div class="card-body">
+    <div class="card" style="width: 100%;">
+      <h5 class="card-title ml-3 mt-3">{{ user.username }}님, 이런 영화는 어떠신가요?🍿</h5>
+      <div class="container mt-1 mb-3" style="width: 80%;">
+          <div class="row">
+              <div class="col">
+                  <img src="https://image.tmdb.org/t/p/w500/{{ recommend_movie.poster_path }}" style="width: 18rem;" alt="{{ movie.title }}">
+              </div>
+              <div class="col mb-3">
+                <a class="text-dark" href="{% url 'movies:detail' recommend_movie.pk %}"><h4>{{ recommend_movie.title }}</h4></a>
+                <h5>개봉일 : {{ recommend_movie.release_date }}</h5>
+                {% if average_point %}
+                <h5>평점 :
+                    {% for i in average_point %}
+                        ⭐
+                    {% endfor %}
+                </h5>
+                {% else %}
+                <h5>아직 평점이 없습니다! 리뷰를 남겨보세요.</h5>
+                {% endif %}
+                <h5>장르 :
+                    {% for genre in recommend_movie.genres.all %}
+                    <a href="{% url 'movies:genre_list' genre.pk %}"><span class="badge badge-dark">{{ genre.name }}</span></a>
+                    {% endfor %}
+                </h5>
+                <p class="card-text">{{ recommend_movie.overview|slice:':500' }}...</p>
+                <br>
+                <a href="{% url 'reviews:create' recommend_movie.pk %}" class="btnSubmit text-dark">리뷰 남기러 가기</a>
+              </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+    <!--여기 위에 추천영화-->
+    <div class="jumbotron vertical-center">
+        <div class="container" style="display: inline-block;text-align: center;">
+            <div class="row justify-content-between">
+                {% for movie in page_obj %}
+                <div class="col d-flex mb-3">
+                    <div class="card" style="width: 18rem;">
+                      <img src="https://image.tmdb.org/t/p/w500/{{ movie.poster_path }}" class="card-img-top" alt="...">
+                      <div class="card-body">
+                        <h5 class="card-title">{{ movie.title }}</h5>
+                        <p class="card-text">{{ movie.overview|slice:':20' }}...</p>
+                        <a href="{% url 'movies:detail' movie.pk %}" class="btnSubmit btn-dark">더 알아보기</a>
+                      </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% bootstrap_paginate page_obj range=10 show_prev_next="true" show_first_last="true" %}
+{% endblock %}
+
+{% block script %}
+<div class='pagination'>
+    <script>
+        // paginator
+        const paginator = document.querySelector('.pagination');
+        paginator.classList.add('justify-content-center', 'my-5');
+    </script>
+</div>
+{% endblock %}
+
+{% block style %}
+
+<style>
+@import url(//fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet");
+
+.btn{
+    font-weight: 600;
+    width: 50%;
+    color: black;
+    background-color: #F08080;
+    border: none;
+    border-radius: 1.5rem;
+    padding:1.3%;
+    font-family: 'Jua', sans-serif;
+}
+.badge{
+    padding:1.3%;
+}
+.card-body{
+    font-family: 'Jua', sans-serif;
+    font-weight: 580;
+}
+.recommend_list{
+    font-family: 'Jua', sans-serif;
+}
+
+.btnSubmit{
+    font-family: 'Jua', sans-serif;
+    font-weight: 600;
+    width: 50%;
+    color: black;
+    background-color: #F08080;
+    border: none;
+    border-radius: 1.5rem;
+    padding:2%;
+    cursor: pointer;
+}
+</style>
+
+{% endblock %}

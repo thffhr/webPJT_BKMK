@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block title %}
+    리뷰 목록
+{% endblock %}
+{% block content %}
+<br>
+<div class="container bg-light">
+  <br>
+  <h2 class="title">리뷰 Top 3📝</h2>
+  <br>
+  <div class="card-group">
+    {% for top_review in top_reviews %}
+    <div class="card">
+      <div class="card-body">
+        <a class="text-dark" href="{% url 'reviews:detail' top_review.pk %}"><h5 class="card-title">[{{ top_review.movie.title }}]{{ top_review.title }}</h5></a>
+        <p class="card-text">{{ top_review.content|slice:':20' }}...</p>
+        <a href="{% url 'accounts:detail' top_review.user.pk %}"><p class="card-text"><small class="text-muted font-weight-bold">{{ top_review.user.username }}</small></p></a>
+        <p class="card-text"><small class="text-muted">{{ top_review.created_at }}</small></p>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  <br>
+</div>
+<hr>
+<h2 class="title">리뷰 목록</h2>
+<div class="list-group">
+  {% for review in reviews %}
+  <!--<a href="#" class="list-group-item list-group-item-action active">-->
+  <a href="{% url 'reviews:detail' review.pk %}" class="list-group-item list-group-item-action">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1">[{{ review.movie.title }}] {{ review.title }}</h5>
+      <small class="text-muted">{{ review.created_at}}</small>
+    </div>
+    <p class="mb-1">{{ review.content|slice:':15' }}...</p>
+    <small class="text-muted">{{ review.user }}</small>
+  </a>
+  {% endfor %}
+{% endblock %}
+
+{% block style %}
+
+<style>
+@import url(//fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet");
+.list-group{
+  font-family: 'Jua', sans-serif;
+}
+.card{
+  font-family: 'Jua', sans-serif;
+}
+.title{
+  font-family: 'Jua', sans-serif;
+}
+</style>
+
+{% endblock %}

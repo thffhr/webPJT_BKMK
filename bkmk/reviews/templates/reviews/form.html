@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}
+        {% if request.resolver_match.url_name == 'create' %}
+            리뷰 작성
+        {% else %}
+            리뷰 수정
+        {% endif %}
+{% endblock %}
+{% load bootstrap4 %}
+{% block content %}
+    <form action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <button class="btnSubmit">제출</button>
+    </form>
+    <hr>
+{% endblock %}
+
+{% block style %}
+
+<style>
+@import url(//fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet");
+.btnSubmit{
+    font-weight: 600;
+    width: 10%;
+    color: #282726;
+    background-color: #F08080;
+    border: none;
+    border-radius: 1.5rem;
+    padding:1%;
+    font-family: 'Jua', sans-serif;
+}
+.review_cre{
+    font-family: 'Jua', sans-serif;
+}
+</style>
+
+{% endblock %}

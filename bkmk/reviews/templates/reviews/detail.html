@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block title %}
+    {{ review.user.username }}님의 리뷰
+{% endblock %}
+{% block content %}
+
+<head>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"
+  />
+</head>
+
+<div class='review_cre'>
+    <div class="columns is-centered" style="margin-top: 2rem; margin-bottom: 5rem;" id="reviews">
+        <div class="column reviews" style="max-width: 650px; padding: 0;">
+            <h2> <a class="text-dark" href="{% url 'movies:detail' review.movie.pk %}">[{{ review.movie.title }}🎥]</a> {{ review.title }}</h2>
+            <p><a class="text-dark" href="{% url 'accounts:detail' review.user.pk %}">{{ review.user.username }}님</a></p>
+            <p class="text-secondary">{{ review.created_at }} | 수정: {{ review.updated_at }}</p>
+            <p>{{ review.content }}</p>
+            {% if review.user == request.user  %}
+            <div class="text-right">
+                <a href="{% url 'reviews:update' review.pk %}"><button class="btnSubmit btn-secondary">수정</button></a>
+                <form action="{% url 'reviews:delete' review.pk %}" method="POST" class="d-inline">
+                    {% csrf_token %}
+                    <button class="btnSubmit btn-secondary">삭제</button>
+                </form>
+            </div>
+            <hr>
+            {% endif %}
+            {% with review_like_users=review.like_users.all %}
+                {% if request.user in review_like_users %}
+                    <a href="{% url 'reviews:like' review.pk %}">
+                        <i class="fas fa-heart fa-lg animated delay-1s" style="color: red;"></i>
+                    </a>
+                {% else %}
+                    <a href="{% url 'reviews:like' review.pk %}">
+                        <i class="far fa-heart fa-lg animated infinite bounce delay-1s" style="color: gray;"></i>
+                    </a>
+                {% endif %}
+                <p>{{ review_like_users|length }}명이 좋아합니다.</p>
+            {% endwith %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block style %}
+<style>
+@import url(//fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet");
+.btnSubmit{
+    font-weight: 500;
+    width: 20%;
+    color: #282726;
+    background-color: #F08080;
+    border: none;
+    border-radius: 1.5rem;
+    padding:1.3%;
+    font-family: 'Jua', sans-serif;
+    width: 47%;
+}
+.review_cre{
+    font-family: 'Jua', sans-serif;
+}
+</style>
+
+{% endblock %}
