@@ -2,11 +2,6 @@
 
 ## 팀원 정보 및 업무 분담 내역
 
-- 이솔
-  - 어쩌구
-- 우지윤
-  - 어쩌구
-
 | 담당업무                                                     | 사용언어/툴                                                  | 담당자 |
 | ------------------------------------------------------------ | ------------------------------------------------------------ | ------ |
 | API management<br/>Recommendation algorithm<br/>Database management<br/>Website construction<br/> | Python<br/>HTML/CSSS<br/>Bootstrap<br/>Django<br/>SQLite<br/>c9 | 이솔   |
